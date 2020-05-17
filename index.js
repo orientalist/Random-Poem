@@ -1,6 +1,7 @@
 "use strict";
 
 var promiseId = null;
+var isProccessing = false;
 
 window.onload = function () {
   wavingLoading();
@@ -11,46 +12,57 @@ window.onload = function () {
 
   auth_input.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
-      var author = e.target.value.replace(/ /g, "").toLowerCase();
+      if (!isProccessing) {
+        var author = e.target.value.replace(/ /g, "").toLowerCase();
 
-      if (author) {
-        clearTimeout(promiseId);
-        poem.innerHTML = "";
-        loading.classList.remove("hide");
-        noPoem.classList.remove("show");
-        var promise = poemPromise(author);
+        if (author) {
+          clearTimeout(promiseId);
+          isProccessing=true;
 
-        promise.then(function (data) {
-          if (data.status !== 404) {
-            if (data) {
-              var rdn = Math.floor(Math.random() * data.length);
-              var _poem = data[rdn].lines;
-              renderPoem(poem, _poem, 0);
-            }
-          } else {
-            console.log("No Data");
-            noPoem.classList.add("show");
-          }
-          loading.classList.add("hide");
-        }).catch(function (err) {
-          console.log(err);
-          loading.classList.add("hide");
-          noPoem.classList.add("show");
-        });
+          poem.innerHTML = "";
+          loading.classList.remove("hide");
+          noPoem.classList.remove("show");
+          
+          var promise = poemPromise(author);
+
+          promise
+            .then(function (data) {
+              if (data.status !== 404) {
+                if (data) {
+                  var rdn = Math.floor(Math.random() * data.length);
+                  var _poem = data[rdn].lines;
+                  renderPoem(poem, _poem, 0);
+                }
+              } else {
+                console.log("No Data");
+                noPoem.classList.add("show");
+              }
+              loading.classList.add("hide");
+              isProccessing=false;
+            })
+            .catch(function (err) {
+              console.log(err);
+              loading.classList.add("hide");
+              noPoem.classList.add("show");
+              isProccessing=false;
+            });
+        }
+      } else {
+        console.log('Processing');
       }
     }
   });
 };
 
 function poemPromise(author) {
-  var proxy='https://cors-anywhere.herokuapp.com/';
+  var proxy = "https://cors-anywhere.herokuapp.com/";
   var url = "http://poetrydb.org/author/#AFD124#/lines.json";
   var xhr = new XMLHttpRequest();
   xhr.responseType = "json";
   return new Promise(function (res, rej) {
     var req = new XMLHttpRequest();
     req.responseType = "json";
-    req.open("GET", proxy+url.replace("#AFD124#", author));
+    req.open("GET", proxy + url.replace("#AFD124#", author));
     req.onload = function () {
       switch (req.status) {
         case 200:
