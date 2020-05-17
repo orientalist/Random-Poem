@@ -1,0 +1,113 @@
+* {
+  box-sizing: border-box; }
+
+:root {
+  font-size: 16px; }
+
+body::-webkit-scrollbar {
+  display: none; }
+
+body {
+  -ms-overflow-style: none; }
+
+body {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f1f1f1; }
+  body .poem-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; }
+    body .poem-container .input-container {
+      position: relative; }
+      body .poem-container .input-container #author {
+        width: 100%;
+        background: transparent;
+        border: none;
+        text-align: center;
+        font-size: 2rem;
+        color: white;
+        outline: none;
+        font-family: "Vesper Libre", serif; }
+        body .poem-container .input-container #author::placeholder {
+          color: rgba(189, 189, 189, 0.6); }
+        body .poem-container .input-container #author:focus + .decoration-line {
+          width: 100%; }
+      body .poem-container .input-container .decoration-line {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 1px;
+        background-color: white;
+        transition: all 0.5s ease;
+        width: 0; }
+    body .poem-container .poem {
+      font-family: "Italianno", cursive;
+      max-height: 60vh;
+      overflow: scroll;
+      margin-bottom: 1rem; }
+      body .poem-container .poem p {
+        text-align: center;
+        font-size: 2rem;
+        animation: up 0.5s forwards ease;
+        margin: 0.5rem 0; }
+    body .poem-container .loading {
+      display: flex;
+      justify-content: center; }
+      body .poem-container .loading .dot {
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 100%;
+        margin: 5px; }
+        body .poem-container .loading .dot.wave {
+          animation: wave 1s infinite ease; }
+      body .poem-container .loading.hide {
+        visibility: hidden; }
+    body .poem-container .no-poem {
+      text-align: center;
+      font-family: "Vesper Libre", serif;
+      transition: all 0.3s ease;
+      transform: translateY(100%);
+      opacity: 0; }
+      body .poem-container .no-poem.show {
+        display: block;
+        transform: translateY(0);
+        opacity: 1; }
+  body .footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 1.5rem 3rem;
+    color: white; }
+    body .footer a {
+      text-decoration: none;
+      color: white; }
+
+@media screen and (max-width: 425px) {
+  .poem-container {
+    width: 90%; } }
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(100%); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes wave {
+  25% { }
+  50% {
+    transform: translateY(100%); }
+  75% { }
+  100% {
+    transform: translateY(0); } }
