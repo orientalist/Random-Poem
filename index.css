@@ -4,10 +4,10 @@
 :root {
   font-size: 16px; }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none; }
 
-body {
+* {
   -ms-overflow-style: none; }
 
 body {
